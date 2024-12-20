@@ -20,10 +20,10 @@ def create_user(name: str, surname: str, user_id: int, balance: int, role: str):
 
 # Запрашиваем данные
 name: str = input("Name: ")
-surname = input("Surname: ")
-user_id = input("UserID: ")
-balance = input("Balance: ")
-role = input("Role: ")
+surname: str = input("Surname: ")
+user_id: int = int(input("UserID: "))
+balance: int = int(input("Balance: "))
+role: str = input("Role: ")
 
 # Создаём пользователя
 create_user(name, surname, user_id, balance, role)
