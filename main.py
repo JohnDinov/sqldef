@@ -1,38 +1,33 @@
 import sqlite3
 
-def db_function():
+connection = sqlite3.connect("user.db") # Подключаемся к базе данных
+cursor = connection.cursor() # Создаём курсор управления
 
-    db = sqlite3.connect('user.db')
+def create_user(name: str, surname: str, user_id: int, balance: int, role: str):
+    """ Создание пользователя
+    Входные данные:
+        name(str): Имя пользователя
+        surname(str): Второе имя пользователя
+        user_id(int): Идентификатор
+        balance(int): Баланс пользователя
+        role(str): Роль пользователя
 
-    # Создание курсора
-    creat = db.cursor()
+    Данная функция добавляет в базу данных нового пользователя по указанным параметрам
 
-    #creat.execute("""CREATE TABLE users (
-    #   name text,
-    #   surname text,
-    #   id integer,
-    #   balance integer,
-    #   role text
-    #)""")
+    """
+    cursor.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?)", (name, surname, user_id, balance, role))
+    connection.commit()
 
-    # Я предпологаю что нужно создать переменные сначала,
-    name, surname = input(), input()
-    userid, balance = int(input()), int(input())
-    role = input()
+# Запрашиваем данные
+name: str = input("Name: ")
+surname: str = input("Surname: ")
+user_id: int = int(input("UserID: "))
+balance: int = int(input("Balance: "))
+role: str = input("Role: ")
 
-    creat.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?)", (name, surname, userid, balance, role))
-    #creat.execute("DELETE FROM users WHERE rowid = 4")
+# Создаём пользователя
+create_user(name, surname, user_id, balance, role)
+print("User created!")
 
-    #creat.execute("UPDATE users SET role = 'Шайтан' WHERE rowid = 3")
-
-    creat.execute("SELECT rowid, * FROM users WHERE id > 1")
-    items = creat.fetchall()
-    #print(creat.fetchall())
-    #print(creat.fetchmany())
-    #print(creat.fetchone()[5])
-        
-    for el in items:
-        print(el[0], el[1], el[2], el[3], el[4], el[5])
-
-    db.commit()
-    db.close()
+# Закрываем базу данных
+connection.close()
